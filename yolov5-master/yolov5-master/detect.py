@@ -38,6 +38,9 @@ from pathlib import Path
 import torch
 
 import time
+from tkinter import *
+from PIL import Image, ImageTk
+import numpy as np
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -52,10 +55,6 @@ from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadScreensh
 from utils.general import (LOGGER, Profile, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
                            increment_path, non_max_suppression, print_args, scale_boxes, strip_optimizer, xyxy2xywh)
 from utils.torch_utils import select_device, smart_inference_mode
-
-a=0
-start=0
-end=0
 
 @smart_inference_mode()
 def run(
@@ -96,6 +95,10 @@ def run(
     screenshot = source.lower().startswith('screen')
     if is_url and is_file:
         source = check_file(source)  # download
+
+    a=0
+    start=0
+    end=0
 
     # Directories
     save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
@@ -170,6 +173,7 @@ def run(
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             imc = im0.copy() if save_crop else im0  # for save_crop
             annotator = Annotator(im0, line_width=line_thickness, example=str(names))
+            
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
@@ -205,46 +209,62 @@ def run(
             # Stream results
             im0 = annotator.result()
             if view_img:
-                if platform.system() == 'Linux' and p not in windows:
-                    windows.append(p)
-                    cv2.namedWindow(str(p), cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)  # allow window resize (Linux)
-                    cv2.resizeWindow(str(p), im0.shape[1], im0.shape[0])
-                cv2.imshow(str(p), im0)
+                #if platform.system() == 'Linux' and p not in windows:
+                #    windows.append(p)
+                #    cv2.namedWindow(str(p), cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)  # allow window resize (Linux)
+                #    cv2.resizeWindow(str(p), im0.shape[1], im0.shape[0])
+                #cv2.namedWindow(str(p), cv2.LDR_SIZE | cv2.WINDOW_KEEPRATIO)
+                #image_red = cv2.imread('C:\yolov5-master\yolov5-master\red.jpg')
+                #image_green = cv2.imread('C:\yolov5-master\yolov5-master\red.jpg')
+
+                resized_im0 = cv2.resize(im0, (500, 400))
+                cv2.imshow(str(p), resized_im0)
                 cv2.waitKey(1)  # 1 millisecond
+                
+                #detect_window = Tk()
+                #detect_window.title("Detect")
+                #detect_window.geometry("920x640+50+50") # "너비x높이+x좌표+y좌표"
+
+                #label1 = Label(detect_window, text='실시간 cctv 영상')
+                #label1.grid(row=0, column=0)
+
+                #button=Button(detect_window, width=15)
+                #button.grid(row=1, column=0)
+                
+                #detect_window.mainloop()
 
             # Save results (image with detections)
-            if save_img:
-                if dataset.mode == 'image':
-                    cv2.imwrite(save_path, im0)
-                else:  # 'video' or 'stream'
-                    if vid_path[i] != save_path:  # new video
-                        vid_path[i] = save_path
-                        if isinstance(vid_writer[i], cv2.VideoWriter):
-                            vid_writer[i].release()  # release previous video writer
-                        if vid_cap:  # video
-                            fps = vid_cap.get(cv2.CAP_PROP_FPS)
-                            w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-                            h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-                        else:  # stream
-                            fps, w, h = 30, im0.shape[1], im0.shape[0]
-                        save_path = str(Path(save_path).with_suffix('.mp4'))  # force *.mp4 suffix on results videos
-                        vid_writer[i] = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
-                    vid_writer[i].write(im0)
+            #if save_img:
+            #    if dataset.mode == 'image':
+            #        cv2.imwrite(save_path, im0)
+            #    else:  # 'video' or 'stream'
+            #        if vid_path[i] != save_path:  # new video
+            #            vid_path[i] = save_path
+            #            if isinstance(vid_writer[i], cv2.VideoWriter):
+            #                vid_writer[i].release()  # release previous video writer
+            #            if vid_cap:  # video
+            #                fps = vid_cap.get(cv2.CAP_PROP_FPS)
+            #                w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            #                h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            #            else:  # stream
+            #                fps, w, h = 30, im0.shape[1], im0.shape[0]
+            #            save_path = str(Path(save_path).with_suffix('.mp4'))  # force *.mp4 suffix on results videos
+            #            vid_writer[i] = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
+            #        vid_writer[i].write(im0)
 
         # Print time (inference-only)
-        # LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
-        
+        #LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
+
         if len(det):
-            if a==0:
-                start = time.time()
-                a=a+1
-            else :
-                end = time.time()
+            if s[13:-2]=="Fall":
+                if a == 0 :
+                    start = time.time()
+                    a = a + 1
+                else :
+                    end = time.time()
             
-            if 5<=end-start<10 :
-                print("detect")
-            elif 10<=end-start<30:
-                print("hello")
+                if end-start>=3 :
+                    cv2.imshow('detect', im0)
         else:
             a=0
             start=0
