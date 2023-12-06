@@ -3,7 +3,7 @@ from PIL import Image, ImageTk
 import torch
 import time
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path = 'C:/Users/wlgns/Desktop/AID/Yolo_v5/best.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path = 'C:/Users/wlgns/OneDrive/바탕 화면/AID/Yolo_v5/fall/weights/best.pt')
 
 class VideoBox:
 
@@ -15,7 +15,7 @@ class VideoBox:
         self.__address = address
         self.__video_frame = frame
         self.__video_label = label
-        self.__source = 'https://youtu.be/f58k04x942M'
+        self.__source = source
         self.board = board
 
     def get_source(self):

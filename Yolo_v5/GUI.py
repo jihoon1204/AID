@@ -35,7 +35,7 @@ txt_frame.place(x=1020, y=40)
 
 board = BoardApp(frame=txt_frame, width=40, height=60)
 
-vb1 = VideoBox(address='경남 진주시 진주대로 501 경상국립대학교 공과대학 407동 202호', frame=video_frame1, label=video_label1, source='http://172.17.154.164:8080/video', board=board)
+vb1 = VideoBox(address='경남 진주시 진주대로 501 경상국립대학교 공과대학 407동 202호', frame=video_frame1, label=video_label1, source='http://172.17.152.201:8080/video', board=board)
 video_label1.bind("<Button-1>", lambda e: webbrowser.open(vb1.get_source()))
 
 t1 = threading.Thread(target=vb1.main_page)
