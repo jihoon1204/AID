@@ -3,7 +3,7 @@ from PIL import Image, ImageTk
 import torch
 import time
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path = 'C:/Users/wlgns/Desktop/AID/Yolo_v5/best.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path = 'C:/Users/wlgns/Desktop/AID/Yolo_v5/fall/weights/best.pt')
 
 class VideoBox:
 
