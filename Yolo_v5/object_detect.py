@@ -15,7 +15,7 @@ class VideoBox:
         self.__address = address
         self.__video_frame = frame
         self.__video_label = label
-        self.__source = 0
+        self.__source = source
         self.board = board
 
     def get_source(self):
