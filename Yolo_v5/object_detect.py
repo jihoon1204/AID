@@ -3,7 +3,8 @@ from PIL import Image, ImageTk
 import torch
 import time
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path = 'C:/Users/wlgns/Desktop/AID/Yolo_v5/best.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path = 'C:/yolov5-master/yolov5-master/runs/train/fallenperson_yolov5s_results2/weights/best.pt')
+#model = torch.hub.load('ultralytics/yolov5', 'custom', path = 'C:/yolov5-master/yolov5-master/runs/train/fall/weights/best.pt')
 
 class VideoBox:
 
@@ -15,7 +16,7 @@ class VideoBox:
         self.__address = address
         self.__video_frame = frame
         self.__video_label = label
-        self.__source = 0
+        self.__source = source
         self.board = board
 
     def get_source(self):
@@ -36,7 +37,7 @@ class VideoBox:
 
             detect_fall = 0
             for *xyxy, conf, cls in results.xyxy[0]:
-                if conf>0.5:
+                if conf>0.7:
                     label = f'{results.names[int(cls)]} {conf:.2f}'
                     cv2.rectangle(frame, (int(xyxy[0]), int(xyxy[1])), (int(xyxy[2]), int(xyxy[3])), (255,0,0), 2)
                     cv2.putText(frame, label, (int(xyxy[0]), int(xyxy[1])-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2)
@@ -59,7 +60,7 @@ class VideoBox:
                     else :
                         self.__end = time.time()
 
-                    if 10<=self.__end - self.__start :
+                    if 3 <= (self.__end - self.__start) :
                         self.__video_frame.config(bg='red')
 
                         if self.__board_check == 0:
