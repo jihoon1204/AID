@@ -1,9 +1,24 @@
 # AID
-wlgns1204@gmail.com / 0221dmstn@naver.com / wdk6936@gnu.ac.kr / gimsh8887@gnu.ac.kr
+## YOLOv5를 이용한 쓰러진 환자 객체 탐지
+## 💻프로젝트 소개
+- YOLOv5를 실시간 감시 카메라에 적용하여 쓰러진 환자에 대해 객체탐지를 하며, 응급 구조기관에 경고 메세지와 위치 정보를 전송하여 신속하게 생명을 구조하는데 초점을 둔다.
+  
+## 🧑‍💻 사용 환경
+- **python 3.11.4**
+- **visual studio code 1.84.2**
+- **cuda toolkit 11.8**
+- **cudnn 8.9.6 (for cuda 11.x)**
+- **pytorch 2.1.1**
+- **YOLOv5**
 
-python train.py --img 640 --batch 16 --epochs 200 --data fallenperson\data.yaml --cfg ./models/yolov5s.yaml --weights yolov5s.pt --name fall
+  ## :busts_in_silhouette: 멤버구성
+- 이지훈
+- 오은수
+- 김시훈
+- 왕동기
 
-python .\detect.py --weight .\runs\train\fall\weights\best.pt --img 640 --confpython train.py --img 640 --conf 0.9 --source 0 
+## 실행코드
 
+    python GUI.py
 
-python .\object_detect.py --weight .\Yolo_v5\best.pt --img 640 --confpython train.py --img 640 --conf 0.9 --source 0 
+  
